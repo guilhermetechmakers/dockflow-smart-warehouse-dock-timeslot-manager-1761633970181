@@ -271,6 +271,102 @@
     @apply mx-auto h-16 w-16 bg-coral-100 rounded-full flex items-center justify-center;
   }
   
+  /* Password Reset Specific Styles */
+  .password-reset-container {
+    @apply min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8;
+  }
+  
+  .password-reset-card {
+    @apply dockflow-card dockflow-card-hover w-full max-w-md p-8 space-y-6;
+  }
+  
+  .password-reset-header {
+    @apply text-center space-y-2;
+  }
+  
+  .password-reset-logo {
+    @apply mx-auto h-12 w-12 bg-gradient-to-br from-coral-500 to-coral-600 rounded-2xl flex items-center justify-center shadow-lg;
+  }
+  
+  .password-reset-title {
+    @apply text-3xl font-bold text-dark;
+  }
+  
+  .password-reset-subtitle {
+    @apply text-gray-600;
+  }
+  
+  .password-reset-divider {
+    @apply relative my-6;
+  }
+  
+  .password-reset-divider::before {
+    @apply absolute inset-0 flex items-center;
+    content: '';
+  }
+  
+  .password-reset-divider::after {
+    @apply relative w-full border-t border-gray-200;
+    content: '';
+  }
+  
+  .password-reset-divider-text {
+    @apply relative flex justify-center text-sm font-medium text-gray-500 bg-white px-2;
+  }
+  
+  .password-reset-footer {
+    @apply text-center text-sm text-gray-600;
+  }
+  
+  .password-reset-link {
+    @apply font-medium text-coral-500 hover:text-coral-600 transition-colors duration-200;
+  }
+  
+  /* Password Strength Meter Styles */
+  .password-strength-meter {
+    @apply space-y-3;
+  }
+  
+  .password-strength-bar {
+    @apply flex space-x-1;
+  }
+  
+  .password-strength-segment {
+    @apply h-2 flex-1 rounded-full transition-all duration-300;
+  }
+  
+  .password-strength-requirements {
+    @apply space-y-1;
+  }
+  
+  .password-requirement {
+    @apply flex items-center space-x-2 text-sm;
+  }
+  
+  .password-requirement-icon {
+    @apply h-4 w-4 rounded-full flex items-center justify-center transition-colors duration-200;
+  }
+  
+  .password-requirement-met {
+    @apply bg-green-100 text-green-600;
+  }
+  
+  .password-requirement-unmet {
+    @apply bg-gray-100 text-gray-400;
+  }
+  
+  .password-requirement-text-met {
+    @apply text-green-700 transition-colors duration-200;
+  }
+  
+  .password-requirement-text-unmet {
+    @apply text-gray-500 transition-colors duration-200;
+  }
+  
+  .password-strength-progress {
+    @apply text-xs text-gray-500;
+  }
+  
   /* Loading States */
   .btn-loading {
     @apply relative;
