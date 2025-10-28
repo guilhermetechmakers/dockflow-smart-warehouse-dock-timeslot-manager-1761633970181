@@ -181,3 +181,142 @@ export type PhoneVerificationInput = z.infer<typeof phoneVerificationSchema>;
 export type TwoFactorSetupInput = z.infer<typeof twoFactorSetupSchema>;
 export type ApiKeyCreateInput = z.infer<typeof apiKeyCreateSchema>;
 export type NotificationPreferencesInput = z.infer<typeof notificationPreferencesSchema>;
+
+// Booking validation schemas
+export const publicBookingSchema = z.object({
+  warehouse_id: z
+    .string()
+    .min(1, 'Warehouse selection is required'),
+  dock_id: z
+    .string()
+    .min(1, 'Dock selection is required'),
+  carrier_name: z
+    .string()
+    .min(1, 'Carrier name is required')
+    .min(2, 'Carrier name must be at least 2 characters')
+    .max(100, 'Carrier name must be less than 100 characters'),
+  trailer_plate: z
+    .string()
+    .min(1, 'Trailer plate number is required')
+    .min(2, 'Plate number must be at least 2 characters')
+    .max(20, 'Plate number must be less than 20 characters'),
+  driver_name: z
+    .string()
+    .optional()
+    .refine(
+      (val) => !val || (val.length >= 2 && val.length <= 100),
+      'Driver name must be between 2 and 100 characters'
+    ),
+  driver_phone: z
+    .string()
+    .optional()
+    .refine(
+      (val) => !val || /^\+?[\d\s\-\(\)]+$/.test(val),
+      'Please enter a valid phone number'
+    ),
+  driver_email: z
+    .string()
+    .optional()
+    .refine(
+      (val) => !val || z.string().email().safeParse(val).success,
+      'Please enter a valid email address'
+    ),
+  eta: z
+    .string()
+    .min(1, 'Expected arrival time is required'),
+  pallets: z
+    .number()
+    .min(1, 'Number of pallets must be at least 1')
+    .max(1000, 'Number of pallets cannot exceed 1000'),
+  adr_declarations: z
+    .array(z.string())
+    .optional()
+    .default([]),
+  temperature_controlled: z
+    .boolean()
+    .optional()
+    .default(false),
+  special_equipment: z
+    .array(z.string())
+    .optional()
+    .default([]),
+  hazmat: z
+    .boolean()
+    .optional()
+    .default(false),
+  tailgate_required: z
+    .boolean()
+    .optional()
+    .default(false),
+  terms_accepted: z
+    .boolean()
+    .refine((val) => val === true, 'You must accept the terms and conditions'),
+  privacy_accepted: z
+    .boolean()
+    .refine((val) => val === true, 'You must accept the privacy policy'),
+});
+
+export const bookingModifySchema = z.object({
+  carrier_name: z
+    .string()
+    .min(1, 'Carrier name is required')
+    .min(2, 'Carrier name must be at least 2 characters')
+    .max(100, 'Carrier name must be less than 100 characters'),
+  trailer_plate: z
+    .string()
+    .min(1, 'Trailer plate number is required')
+    .min(2, 'Plate number must be at least 2 characters')
+    .max(20, 'Plate number must be less than 20 characters'),
+  driver_name: z
+    .string()
+    .optional()
+    .refine(
+      (val) => !val || (val.length >= 2 && val.length <= 100),
+      'Driver name must be between 2 and 100 characters'
+    ),
+  driver_phone: z
+    .string()
+    .optional()
+    .refine(
+      (val) => !val || /^\+?[\d\s\-\(\)]+$/.test(val),
+      'Please enter a valid phone number'
+    ),
+  driver_email: z
+    .string()
+    .optional()
+    .refine(
+      (val) => !val || z.string().email().safeParse(val).success,
+      'Please enter a valid email address'
+    ),
+  eta: z
+    .string()
+    .min(1, 'Expected arrival time is required'),
+  pallets: z
+    .number()
+    .min(1, 'Number of pallets must be at least 1')
+    .max(1000, 'Number of pallets cannot exceed 1000'),
+  adr_declarations: z
+    .array(z.string())
+    .optional()
+    .default([]),
+  temperature_controlled: z
+    .boolean()
+    .optional()
+    .default(false),
+  special_equipment: z
+    .array(z.string())
+    .optional()
+    .default([]),
+  hazmat: z
+    .boolean()
+    .optional()
+    .default(false),
+  tailgate_required: z
+    .boolean()
+    .optional()
+    .default(false),
+});
+
+// Type exports
+export type PublicBookingInput = z.infer<typeof publicBookingSchema>;
+export type BookingModifyInput = z.infer<typeof bookingModifySchema>;

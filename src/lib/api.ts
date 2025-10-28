@@ -339,3 +339,153 @@ export const profileApi = {
     return api.get<any>(`/profile/activity?page=${page}&limit=${limit}`);
   },
 };
+
+// Public booking API (no auth required)
+export const publicBookingApi = {
+  // Get available warehouses
+  getWarehouses: async () => {
+    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/public/warehouses`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status}`);
+    }
+    
+    return response.json();
+  },
+
+  // Get warehouse details
+  getWarehouse: async (warehouseId: string) => {
+    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/public/warehouses/${warehouseId}`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status}`);
+    }
+    
+    return response.json();
+  },
+
+  // Get available docks for a warehouse
+  getDocks: async (warehouseId: string) => {
+    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/public/warehouses/${warehouseId}/docks`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status}`);
+    }
+    
+    return response.json();
+  },
+
+  // Get available time slots for a dock
+  getAvailableSlots: async (warehouseId: string, dockId: string, date: string) => {
+    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/public/warehouses/${warehouseId}/docks/${dockId}/slots?date=${date}`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status}`);
+    }
+    
+    return response.json();
+  },
+
+  // Create a new booking
+  createBooking: async (bookingData: any) => {
+    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/public/bookings`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(bookingData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `API Error: ${response.status}`);
+    }
+
+    return response.json();
+  },
+
+  // Get booking by token
+  getBookingByToken: async (token: string) => {
+    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/public/bookings/token/${token}`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status}`);
+    }
+    
+    return response.json();
+  },
+
+  // Modify booking by token
+  modifyBooking: async (token: string, bookingData: any) => {
+    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/public/bookings/token/${token}`;
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(bookingData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `API Error: ${response.status}`);
+    }
+
+    return response.json();
+  },
+
+  // Cancel booking by token
+  cancelBooking: async (token: string) => {
+    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/public/bookings/token/${token}/cancel`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `API Error: ${response.status}`);
+    }
+
+    return response.json();
+  },
+
+  // Send booking confirmation
+  sendConfirmation: async (bookingId: string, methods: { email?: string; sms?: string }) => {
+    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/public/bookings/${bookingId}/send-confirmation`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(methods),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `API Error: ${response.status}`);
+    }
+
+    return response.json();
+  },
+
+  // Generate QR code for booking
+  generateQRCode: async (bookingId: string) => {
+    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/public/bookings/${bookingId}/qr-code`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status}`);
+    }
+    
+    return response.json();
+  },
+};

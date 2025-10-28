@@ -7,6 +7,7 @@ import { SignupPage } from "@/pages/SignupPage";
 import { PasswordResetPage } from "@/pages/PasswordResetPage";
 import { EmailVerificationPage } from "@/pages/EmailVerificationPage";
 import { PublicBookingPage } from "@/pages/PublicBookingPage";
+import { BookingModifyPage } from "@/components/booking/BookingModifyPage";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { OperationsDashboard } from "@/pages/OperationsDashboard";
 import { SchedulePage } from "@/pages/SchedulePage";
@@ -53,6 +54,7 @@ export default function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/book/:warehouseId?" element={<PublicBookingPage />} />
+            <Route path="/booking/modify" element={<BookingModifyPage />} />
             
             {/* Auth Routes */}
             <Route path="/login" element={
