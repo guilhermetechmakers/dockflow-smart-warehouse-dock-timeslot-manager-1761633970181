@@ -123,6 +123,25 @@ export const authApi = {
   verifyEmail: async (token: string) => {
     return api.post('/auth/verify-email', { token });
   },
+
+  sendMagicLink: async (email: string) => {
+    return api.post('/auth/magic-link', { email });
+  },
+
+  verifyMagicLink: async (token: string) => {
+    const response = await api.post<{
+      user: any;
+      token: string;
+      refresh_token: string;
+      expires_in: number;
+    }>('/auth/verify-magic-link', { token });
+    
+    if (response.token) {
+      localStorage.setItem('auth_token', response.token);
+    }
+    
+    return response;
+  },
 };
 
 // Warehouse API

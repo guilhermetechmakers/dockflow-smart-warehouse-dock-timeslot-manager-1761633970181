@@ -104,3 +104,33 @@ export const useEmailVerification = () => {
     },
   });
 };
+
+// Magic link mutations
+export const useSendMagicLink = () => {
+  return useMutation({
+    mutationFn: authApi.sendMagicLink,
+    onSuccess: () => {
+      toast.success('Magic link sent! Check your email.');
+    },
+    onError: (error: any) => {
+      toast.error(`Magic link failed: ${error.message}`);
+    },
+  });
+};
+
+export const useVerifyMagicLink = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: authApi.verifyMagicLink,
+    onSuccess: (data) => {
+      if (data.user) {
+        queryClient.setQueryData(authKeys.user, data.user);
+      }
+      toast.success('Signed in with magic link!');
+    },
+    onError: (error: any) => {
+      toast.error(`Magic link verification failed: ${error.message}`);
+    },
+  });
+};
