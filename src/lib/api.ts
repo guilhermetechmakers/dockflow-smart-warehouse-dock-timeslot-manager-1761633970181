@@ -261,3 +261,77 @@ export const visitApi = {
     return response.json();
   },
 };
+
+// Profile API
+export const profileApi = {
+  getProfile: async () => {
+    return api.get<any>('/profile');
+  },
+
+  updateProfile: async (data: { full_name: string; phone?: string }) => {
+    return api.put<any>('/profile', data);
+  },
+
+  changePassword: async (data: { 
+    current_password: string; 
+    new_password: string; 
+  }) => {
+    return api.post('/profile/change-password', data);
+  },
+
+  // Phone verification
+  sendPhoneVerification: async (phone: string) => {
+    return api.post('/profile/phone/send-verification', { phone });
+  },
+
+  verifyPhone: async (data: { phone: string; verification_code: string }) => {
+    return api.post('/profile/phone/verify', data);
+  },
+
+  // Two-factor authentication
+  getTwoFactorSetup: async () => {
+    return api.get<any>('/profile/2fa/setup');
+  },
+
+  enableTwoFactor: async (data: { 
+    method: 'totp' | 'sms'; 
+    phone?: string; 
+    verification_code?: string;
+  }) => {
+    return api.post('/profile/2fa/enable', data);
+  },
+
+  disableTwoFactor: async (data: { 
+    method: 'totp' | 'sms'; 
+    verification_code: string;
+  }) => {
+    return api.post('/profile/2fa/disable', data);
+  },
+
+  // API Keys (admin/manager only)
+  getApiKeys: async () => {
+    return api.get<any[]>('/profile/api-keys');
+  },
+
+  createApiKey: async (data: { name: string; permissions: string[] }) => {
+    return api.post<any>('/profile/api-keys', data);
+  },
+
+  revokeApiKey: async (keyId: string) => {
+    return api.delete(`/profile/api-keys/${keyId}`);
+  },
+
+  // Notification preferences
+  getNotificationPreferences: async () => {
+    return api.get<any>('/profile/notifications');
+  },
+
+  updateNotificationPreferences: async (data: any) => {
+    return api.put('/profile/notifications', data);
+  },
+
+  // Activity logs
+  getActivityLogs: async (page = 1, limit = 20) => {
+    return api.get<any>(`/profile/activity?page=${page}&limit=${limit}`);
+  },
+};
