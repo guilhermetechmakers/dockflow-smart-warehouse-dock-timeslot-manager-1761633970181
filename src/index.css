@@ -1,68 +1,227 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
+/* DockFlow Design System with CSS Custom Properties */
+@layer base {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    /* DockFlow Color Palette - RGB format for consistency */
+    --background: 255 255 255;
+    --foreground: 34 34 34;
+    
+    --primary: 255 76 76; /* Bright Coral Red #FF4C4C */
+    --primary-foreground: 255 255 255;
+    
+    --secondary: 246 246 248; /* Medium Gray #F6F6F8 */
+    --secondary-foreground: 34 34 34;
+    
+    --card: 255 255 255;
+    --card-foreground: 34 34 34;
+    
+    --border: 233 234 237; /* Light Gray #E9EAED */
+    --input: 233 234 237;
+    --ring: 255 76 76; /* Coral Red for focus */
+    
+    /* DockFlow specific design tokens */
+    --radius: 1rem; /* 16px border radius */
+    
+    /* Additional design tokens */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
-  a:hover {
-    color: #747bff;
+  
+  .dark {
+    --background: 15 23 42;
+    --foreground: 248 250 252;
+    
+    --primary: 255 76 76;
+    --primary-foreground: 255 255 255;
+    
+    --secondary: 30 41 59;
+    --secondary-foreground: 248 250 252;
+    
+    --card: 15 23 42;
+    --card-foreground: 248 250 252;
+    
+    --border: 30 41 59;
+    --input: 30 41 59;
+    --ring: 255 76 76;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+@layer base {
+  * {
+    @apply border-border;
   }
+  
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Typography hierarchy based on DockFlow design */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-dark;
+    line-height: 1.2;
+  }
+  
+  h1 {
+    @apply text-4xl lg:text-5xl;
+  }
+  
+  h2 {
+    @apply text-3xl lg:text-4xl;
+  }
+  
+  h3 {
+    @apply text-2xl lg:text-3xl;
+  }
+  
+  h4 {
+    @apply text-xl lg:text-2xl;
+  }
+  
+  h5 {
+    @apply text-lg lg:text-xl;
+  }
+  
+  h6 {
+    @apply text-base lg:text-lg;
+  }
+  
+  /* DockFlow specific text styles */
+  .text-coral {
+    @apply text-coral-500;
+  }
+  
+  .text-muted {
+    @apply text-gray-500;
+  }
+  
+  .text-section-label {
+    @apply text-xs font-medium uppercase tracking-wider text-gray-500;
+  }
+}
+
+@layer components {
+  /* DockFlow Card Component */
+  .dockflow-card {
+    @apply bg-card text-card-foreground rounded-2xl shadow-dockflow border border-border;
+  }
+  
+  .dockflow-card-hover {
+    @apply hover:shadow-dockflow-lg hover:bg-gray-50 transition-all duration-200;
+  }
+  
+  /* DockFlow Button Styles */
+  .btn-primary {
+    @apply bg-coral-500 hover:bg-coral-600 text-white font-medium px-6 py-3 rounded-full transition-all duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-coral-500 focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-100 hover:bg-gray-200 text-dark font-medium px-6 py-3 rounded-full transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-coral-500 text-coral-500 hover:bg-coral-500 hover:text-white font-medium px-6 py-3 rounded-full transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-coral-500 focus:ring-offset-2;
+  }
+  
+  /* DockFlow Form Elements */
+  .form-input {
+    @apply w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-coral-500 focus:border-transparent transition-all duration-200;
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-dark mb-2;
+  }
+  
+  /* DockFlow Navigation */
+  .nav-item {
+    @apply flex items-center px-4 py-3 text-gray-600 hover:text-coral-500 hover:bg-coral-50 rounded-xl transition-all duration-200;
+  }
+  
+  .nav-item-active {
+    @apply bg-coral-500 text-white hover:text-white hover:bg-coral-600;
+  }
+  
+  /* DockFlow Metrics */
+  .metric-card {
+    @apply dockflow-card dockflow-card-hover p-6;
+  }
+  
+  .metric-value {
+    @apply text-3xl font-bold text-dark;
+  }
+  
+  .metric-label {
+    @apply text-sm text-gray-500 uppercase tracking-wider;
+  }
+  
+  /* DockFlow Status Indicators */
+  .status-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .status-success {
+    @apply bg-green-100 text-green-800;
+  }
+  
+  .status-warning {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+  
+  .status-error {
+    @apply bg-red-100 text-red-800;
+  }
+  
+  .status-info {
+    @apply bg-blue-100 text-blue-800;
+  }
+}
+
+/* Smooth Scrolling */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Custom Animations */
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+/* Focus Visible for Accessibility */
+:focus-visible {
+  outline: 2px solid rgb(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
 }
