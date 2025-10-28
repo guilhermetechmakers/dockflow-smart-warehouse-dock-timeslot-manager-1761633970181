@@ -142,6 +142,10 @@ export const authApi = {
     
     return response;
   },
+
+  resendVerificationEmail: async (email: string) => {
+    return api.post('/auth/resend-verification', { email });
+  },
 };
 
 // Warehouse API
